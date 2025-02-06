@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -31,12 +32,18 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+   
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework',
+    'api_app',
+    'corsheaders',
+
+
 ]
 
 MIDDLEWARE = [
@@ -47,15 +54,22 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
 ]
+
+CORS_ALLOW_ALL_ORIGINS = True
+
 
 ROOT_URLCONF = 'api_proj.urls'
 
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
-        'APP_DIRS': True,
+        'DIRS': [
+            BASE_DIR / 'templates',  # This should include the path to the global templates folder, if you're using one
+        ],
+        'APP_DIRS': True,  # This allows searching in the app's templates directory
         'OPTIONS': {
             'context_processors': [
                 'django.template.context_processors.debug',
@@ -67,6 +81,7 @@ TEMPLATES = [
     },
 ]
 
+
 WSGI_APPLICATION = 'api_proj.wsgi.application'
 
 
@@ -74,9 +89,13 @@ WSGI_APPLICATION = 'api_proj.wsgi.application'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+   'default':{ 
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'login api', 
+        'USER': 'postgres',
+        'PASSWORD': 'ghost786143',
+        'HOST': '127.0.0.1', 
+        'PORT': '5432',
     }
 }
 
@@ -121,3 +140,9 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+#added manually
+
+STATICFILES_DIRS=[
+    os.path.join(BASE_DIR,"static")
+]
